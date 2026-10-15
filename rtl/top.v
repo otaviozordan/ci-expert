@@ -139,8 +139,7 @@ module top #(
     control u_control (
         .clk           (clk),
         .rst           (rst),
-        .cmd_in        (cmd_in),
-        .reg_cmd       (reg_cmd),
+        .cmd_in        (reg_cmd),
         .p_error       (reg_flags[0]),
         .aluin_reg_en  (aluin_reg_en),
         .datain_reg_en (datain_reg_en),

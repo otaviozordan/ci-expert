@@ -1,10 +1,12 @@
 `timescale 1ns/1ps
 // -----------------------------------------------------------------------------
-// alu.v - Unidade Logica e Aritmetica
+// alu.v - Unidade Logica e Aritmetica (combinacional)
 //   Operandos de WIDTH bits, resultado de 2*WIDTH bits.
 //   error = divisao por zero OU nvalid_data (reuso de dado invalido).
-//   Sob erro, result = -1 (todos os bits em 1) e zero = 0.
-//   Opcodes nao aritmeticos (NOP/LOAD/STORE): result = 0, zero = 0.
+//   Sob erro, result = -1 (todos os bits em 1).
+//   zero = 1 quando o resultado aritmetico e 0.
+//   Opcodes nao aritmeticos (NOP/LOAD/STORE): result = 0 e zero = 0, pois
+//   nao ha resultado aritmetico (no LOAD o dado vem da memoria).
 // -----------------------------------------------------------------------------
 module alu #(
     parameter WIDTH = 8
@@ -49,15 +51,9 @@ module alu #(
             default: arith = 1'b0;
         endcase
 
-        error = div_by_zero | nvalid_data;
-
-        if (error) begin
-            result = {2*WIDTH{1'b1}};
-            zero   = 1'b0;
-        end else begin
-            result = raw;
-            zero   = arith & (raw == {2*WIDTH{1'b0}});
-        end
+        error  = div_by_zero | nvalid_data;
+        result = error ? {2*WIDTH{1'b1}} : raw;
+        zero   = arith & (result == {2*WIDTH{1'b0}});
     end
 
 endmodule
