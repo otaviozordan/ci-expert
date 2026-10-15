@@ -20,27 +20,35 @@ Especificação de referência: [Roteiro_Projeto_CI_Expert.pdf](Roteiro_Projeto_
 
 ## Estrutura do repositório
 
+Entregáveis obrigatórios do roteiro (seções 3.1 a 3.4) marcados com 📦.
+
 ```
-rtl/                    RTL Verilog sintetizável (entregável da trilha RTL)
-tb/                     Testbench Verilog (Verification with Testbench)
-dv/                     Design Verification
-  uvm/env|seq|tests     Ambiente UVM (interface, driver, monitor, predictor, scoreboard...)
-  sva/                  Asserções SystemVerilog
-  coverage/             Coletores de cobertura funcional e cruzada
-  scripts/              Scripts de simulação VCS/Verdi
-  reports/              Logs e relatórios de cobertura
-syn/                    Logic Synthesis & DFT
-  constraints/          Arquivo SDC
-  scripts/              Scripts Tcl do Design Compiler / Fusion Compiler
-  netlist/              Netlist sintetizado com DFT
-  reports/baseline|ppa1|ppa2   Relatórios QoR/Power por perfil de PPA
-pd/                     Physical Design & Sign-Off
-  scripts/              Scripts Tcl do Fusion Compiler / STARRC / PrimeTime
-  floorplan/            Floorplan e rede de alimentação
-  outputs/              DEF / GDSII
-  spef/                 Parasitas extraídos (STARRC)
-  reports/drc_lvs|sta   Relatórios de verificação física e timing sign-off
-docs/apresentacao/      Slides da apresentação final
+rtl/                         1. RTL Design
+  📦 top.v, control.v, alu.v, memory.v,
+     register_bank.v, mux4.v, mux4_registered.v   (sintetizáveis, sem erros de compilação)
+tb/                          2. Verification with Testbench
+     Testbench funcional para depuração de formas de onda no Verdi
+dv/                          3-4. Verification with UVM / Coverage Analysis
+  uvm/env|seq|tests        📦 Ambiente UVM funcional (interface, sequencer, driver,
+                              monitor, predictor, scoreboard) e testes (incl. 100k random)
+  sva/                       Asserções SVA da FSM
+  coverage/                  Coletores de cobertura funcional e cruzada
+  scripts/                 📦 Scripts de simulação (VCS/Verdi)
+  reports/                 📦 Relatórios de cobertura funcional/cruzada
+                           📦 Log de simulação com UVM_ERROR: 0
+syn/                         5. Synthesis + DFT (Clock Gating)
+  constraints/             📦 Arquivo de restrições SDC
+  scripts/                   Scripts Tcl do Design Compiler / Fusion Compiler
+  netlist/                 📦 Netlist sintetizado com DFT (scan chains)
+  reports/baseline|ppa1|ppa2 📦 Relatórios de QoR/Power e dados numéricos de PPA
+pd/                          6-9. Physical Implementation → Sign-Off
+  floorplan/                 Floorplan e rede de alimentação VDD/VSS
+  scripts/                   Scripts Tcl (Fusion Compiler, STARRC, PrimeTime)
+  outputs/                 📦 Layout final (DEF/GDSII)
+  spef/                      Parasitas extraídos (STARRC)
+  reports/drc_lvs/         📦 Relatórios de DRC/LVS zerados (0 shorts, 0 opens)
+  reports/sta/             📦 Relatórios de timing sign-off e curvas de convergência de frequência
+docs/apresentacao/         📦 Slides da apresentação final (20 min)
 ```
 
 ---
